@@ -2,12 +2,16 @@ package br.com.amaro.controller;
 
 import br.com.amaro.dto.ProductsDTO;
 import br.com.amaro.service.AmaroService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+
 
 @RequestMapping("/retive-products")
 @Controller
@@ -17,19 +21,22 @@ public class AmaroRetriveProducts {
     private AmaroService amaroService;
 
 
-    @GetMapping
+    @GetMapping(produces = APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ProductsDTO getProductsAmaro()
+    public String getProductsAmaro()  throws JsonProcessingException
     {
-        return  amaroService.retriveProducts();
+        ObjectMapper mapper = new ObjectMapper();
+        ProductsDTO productsDTO = amaroService.retriveProducts();
+        return  mapper.writerWithDefaultPrettyPrinter().writeValueAsString(productsDTO);
     }
 
 
-    @GetMapping(value = "/findIdProduct/{id}")
+    @GetMapping(value = "/{id}",produces = APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ProductsDTO searchSimilarProduct(@PathVariable long id)
-    {
-        return amaroService.searchEuclidianSimilarityProducts(id);
+    public String searchSimilarProduct(@PathVariable long id) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        ProductsDTO productsDTO = amaroService.searchEuclidianSimilarityProducts(id);
+        return  mapper.writerWithDefaultPrettyPrinter().writeValueAsString(productsDTO);
     }
 
 

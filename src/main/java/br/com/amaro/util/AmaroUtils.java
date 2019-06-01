@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
 
 @Log4j2
 public class AmaroUtils {
@@ -73,6 +76,31 @@ public class AmaroUtils {
 
             }
         });
+
+    }
+
+    public static ProductsDTO euclideanDistance(List<Integer> distance1, ProductsDTO productsDTO)
+    {
+
+        ProductsDTO productsSimilarity  = new ProductsDTO();
+
+        for(ProductDTO products : productsDTO.getProducts())
+        {
+            double similarity = 0.0;
+
+            for (int i =0; i < products.getTagsVector().size(); i++)
+            {
+                similarity = similarity+Math.pow((distance1.get(i) - products.getTagsVector().get(i)),2.0);
+            }
+
+
+            products.setSimilarity(new BigDecimal(Math.sqrt(similarity)).setScale(2, RoundingMode.HALF_EVEN).doubleValue());
+            productsSimilarity.getProducts().add(products);
+        }
+
+
+        return productsSimilarity;
+
 
     }
 

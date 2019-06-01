@@ -20,6 +20,7 @@ public class ProductDTO {
     private String name;
     private List<String> tags;
     private List<Integer> tagsVector = new ArrayList<>();
+    private Double similarity;
 
 
 }

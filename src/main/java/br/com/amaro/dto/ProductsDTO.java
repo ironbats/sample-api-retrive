@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @JsonPropertyOrder({
@@ -14,7 +15,7 @@ import java.util.List;
 @Data
 public class ProductsDTO {
 
-    private List<ProductDTO> products;
+    private List<ProductDTO> products = new ArrayList<>();
 
 
 }

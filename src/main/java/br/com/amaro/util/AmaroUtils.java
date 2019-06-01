@@ -71,7 +71,7 @@ public class AmaroUtils {
                 long count = limitSize - value;
                 for(long i=0; i< count; i++)
                 {
-                    tags.getTags().add(CategoriesEnum.ramdomCategoris().name());
+                    tags.getTags().add(CategoriesEnum.ramdomCategoris().name().toUpperCase());
                 }
 
             }
@@ -79,9 +79,8 @@ public class AmaroUtils {
 
     }
 
-    public static ProductsDTO euclideanDistance(List<Integer> distance1, ProductsDTO productsDTO)
+    public static ProductsDTO euclideanDistance(List<Integer> index, ProductsDTO productsDTO)
     {
-
         ProductsDTO productsSimilarity  = new ProductsDTO();
 
         for(ProductDTO products : productsDTO.getProducts())
@@ -90,17 +89,12 @@ public class AmaroUtils {
 
             for (int i =0; i < products.getTagsVector().size(); i++)
             {
-                similarity = similarity+Math.pow((distance1.get(i) - products.getTagsVector().get(i)),2.0);
+                similarity = similarity+Math.pow((index.get(i) - products.getTagsVector().get(i)),2.0);
             }
-
-
             products.setSimilarity(new BigDecimal(Math.sqrt(similarity)).setScale(2, RoundingMode.HALF_EVEN).doubleValue());
             productsSimilarity.getProducts().add(products);
         }
-
-
         return productsSimilarity;
-
 
     }
 

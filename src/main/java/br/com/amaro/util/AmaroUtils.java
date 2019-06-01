@@ -1,5 +1,8 @@
 package br.com.amaro.util;
 
+import br.com.amaro.builder.ProductChargeVO;
+import br.com.amaro.builder.ProductSearchVO;
+import br.com.amaro.builder.ProductsVO;
 import br.com.amaro.dto.CategoriesEnum;
 import br.com.amaro.dto.ProductDTO;
 import br.com.amaro.dto.ProductsDTO;
@@ -12,6 +15,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -96,6 +100,39 @@ public class AmaroUtils {
         }
         return productsSimilarity;
 
+    }
+
+    public static ProductsVO builderProductsVO(ProductsDTO productsDTO )
+    {
+        List<Object> productChargeVOS = new ArrayList<>();
+
+        for(ProductDTO productDTO : productsDTO.getProducts())
+        {
+            productChargeVOS.add(ProductChargeVO.builder()
+                    .id(productDTO.getId()).name(productDTO.getName())
+                    .tags(productDTO.getTags()).
+                            tagsVector(productDTO.getTagsVector()).build());
+        }
+
+        ProductsVO productsVO = new ProductsVO();
+        productsVO.setProducts(productChargeVOS);
+
+        return productsVO;
+    }
+
+    public static ProductsVO builderSpecificVO(ProductsDTO productsDTO )
+    {
+        List<Object> specificProducts = new ArrayList<>();
+
+        for(ProductDTO productDTO : productsDTO.getProducts())
+        {
+            specificProducts.add(ProductSearchVO.builder().id(productDTO.getId()).name(productDTO.getName()).similarity(productDTO.getSimilarity()).build());
+        }
+
+        ProductsVO productsVO = new ProductsVO();
+        productsVO.setProducts(specificProducts);
+
+        return productsVO;
     }
 
 }

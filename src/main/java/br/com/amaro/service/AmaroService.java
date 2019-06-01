@@ -1,5 +1,8 @@
 package br.com.amaro.service;
 
+import br.com.amaro.builder.ProductChargeVO;
+import br.com.amaro.builder.ProductSearchVO;
+import br.com.amaro.builder.ProductsVO;
 import br.com.amaro.dto.ProductDTO;
 import br.com.amaro.dto.ProductsDTO;
 import br.com.amaro.util.AmaroUtils;
@@ -14,18 +17,16 @@ import java.util.stream.Collectors;
 public class AmaroService {
 
 
-    public ProductsDTO retriveProducts()
+    public ProductsVO retriveProducts()
     {       
        ProductsDTO productsDTO = AmaroUtils.create();
        AmaroUtils.validate(productsDTO);
        productsDTO.getProducts().forEach(product -> AmaroUtils.apply(product));
-
-        return productsDTO;
+        return AmaroUtils.builderProductsVO(productsDTO);
     }
 
 
-    //TODO refactor
-    public ProductsDTO searchEuclidianSimilarityProducts(long id)
+    public ProductsVO searchEuclidianSimilarityProducts(long id)
     {
         ProductsDTO productsDTO = AmaroUtils.create();
         AmaroUtils.validate(productsDTO);
@@ -34,15 +35,14 @@ public class AmaroService {
         ProductDTO principalProduct =  productsDTO.getProducts().stream().filter( p -> p.getId() == id).findAny().orElse(null);
         if(principalProduct != null)
         {
-            ///exclude to match
             productsDTO.getProducts().remove(principalProduct);
             ProductsDTO euclideanProducts = AmaroUtils.euclideanDistance(principalProduct.getTagsVector(),productsDTO);
 
             List<ProductDTO> similarity = euclideanProducts.getProducts().stream().sorted(Comparator.comparing(ProductDTO::getSimilarity).reversed()).collect(Collectors.toList());
             ProductsDTO similarProducts = new ProductsDTO();
             similarProducts.setProducts(similarity.stream().limit(3).collect(Collectors.toList()));
-            return similarProducts;
 
+            return AmaroUtils.builderSpecificVO(similarProducts);
         }
 
         return null;

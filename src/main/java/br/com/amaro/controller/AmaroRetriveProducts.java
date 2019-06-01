@@ -1,6 +1,6 @@
 package br.com.amaro.controller;
 
-import br.com.amaro.dto.ProductsDTO;
+import br.com.amaro.builder.ProductsVO;
 import br.com.amaro.service.AmaroService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +26,7 @@ public class AmaroRetriveProducts {
     public String getProductsAmaro()  throws JsonProcessingException
     {
         ObjectMapper mapper = new ObjectMapper();
-        ProductsDTO productsDTO = amaroService.retriveProducts();
+        ProductsVO productsDTO = amaroService.retriveProducts();
         return  mapper.writerWithDefaultPrettyPrinter().writeValueAsString(productsDTO);
     }
 
@@ -35,7 +35,7 @@ public class AmaroRetriveProducts {
     @ResponseBody
     public String searchSimilarProduct(@PathVariable long id) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        ProductsDTO productsDTO = amaroService.searchEuclidianSimilarityProducts(id);
+        ProductsVO productsDTO = amaroService.searchEuclidianSimilarityProducts(id);
         return  mapper.writerWithDefaultPrettyPrinter().writeValueAsString(productsDTO);
     }
 

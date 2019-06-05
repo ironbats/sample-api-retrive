@@ -15,7 +15,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RequestMapping("/retive-products")
 @Controller
-public class AmaroRetriveProducts {
+public class AmaroRetriveProductsController {
 
     @Autowired
     private AmaroService amaroService;

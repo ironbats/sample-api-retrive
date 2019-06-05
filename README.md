@@ -14,8 +14,11 @@
      
 # Objetivos
 
-Construir duas API`S para  
-1-) Produtos
-2-) Busca por Similaridades usando Distancia euclidiana.
+Construir duas API`S para   
+
+    1. Ter Produtos com carga de dados fornecida por um drive do google . 
+    2. Busca por Similaridades usando Distancia euclidiana.
+      
+
 
   
